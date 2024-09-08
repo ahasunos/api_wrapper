@@ -1,0 +1,54 @@
+# Ignore bundler config
+.bundle/
+
+# Ignore generated files
+*.gem
+*.rbc
+
+# Ignore log files
+log/*.log
+
+# Ignore temporary files
+tmp/
+tmp/**/
+temp/
+temp/**/
+
+# Ignore macOS-specific files
+.DS_Store
+
+# Ignore vim swap files
+*.swp
+
+# Ignore coverage reports
+coverage/
+
+# Ignore build artifacts
+build/
+pkg/
+
+# Ignore any environment-specific files
+.env
+
+
+# for a library or gem, you might want to ignore these files since the code is
+# intended to run in multiple environments; otherwise, check them in:
+Gemfile.lock
+.ruby-version
+.ruby-gemset
+
+# Ignore RSpec status file
+.rspec_status
+
+# Ignore byebug history
+.byebug_history
+
+# Ignore node module
+node_modules/*
+
+# Ignore .yardoc directory
+.yardoc/
+.yardoc/**/
+
+# Ignore log files
+*.log
