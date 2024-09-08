@@ -1,0 +1,61 @@
+name: Version Bump
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.2
+
+    - name: Fetch all history for version bumping
+      run: git fetch --prune --unshallow
+
+    - name: Install jq
+      run: sudo apt-get install jq
+
+    - name: Get Pull Request Labels
+      id: get_labels
+      run: |
+        labels=$(jq -r '.pull_request.labels[].name' < $GITHUB_EVENT_PATH | paste -sd, -)
+        echo "PR_LABELS=${labels}"
+        echo "PR_LABELS=${labels}" >> $GITHUB_ENV
+
+    - name: Bump version
+      run: ruby .github/scripts/version_bump.rb
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        if git diff --exit-code; then
+          echo "No changes to commit"
+          echo "changed=false" >> $GITHUB_ENV
+        else
+          echo "Changes detected"
+          echo "changed=true" >> $GITHUB_ENV
+        fi
+
+    - name: Commit and push changes
+      if: env.changed == 'true'
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add lib/nse_data/version.rb
+        git commit -m "Bump version by github-actions"
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
