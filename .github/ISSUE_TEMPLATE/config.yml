@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links: []
+issue_templates:
+  - name: Bug Report
+    description: Report a bug or issue with the system.
+    labels: bug
+    file: bug_report.md
+  - name: Task
+    description: Create or track tasks that need to be completed.
+    labels: task
+    file: task.md
