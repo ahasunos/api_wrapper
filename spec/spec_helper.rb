@@ -6,6 +6,10 @@ SimpleCov.start do
 end
 
 require 'api_wrapper'
+require 'webmock/rspec'
+
+# Disable external requests to ensure all requests are stubbed
+WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
