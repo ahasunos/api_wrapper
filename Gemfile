@@ -2,10 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in nse_data.gemspec
-gemspec
-
-# Specify your gem's dependencies in nse_data.gemspec
+# Specify your gem's dependencies in api_wrapper.gemspec
 gemspec
 
 group :development do
