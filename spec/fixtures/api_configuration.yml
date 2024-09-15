@@ -1,0 +1,11 @@
+# spec/fixtures/api_configuration.yml
+base_url: https://api.example.com/
+apis:
+  endpoint1:
+    path: 'path/to/endpoint1'
+    description: 'Endpoint 1 description'
+    no_cache: true
+  endpoint2:
+    path: 'path/to/endpoint2'
+    description: 'Endpoint 2 description'
+    ttl: 600
