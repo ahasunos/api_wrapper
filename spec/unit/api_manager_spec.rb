@@ -8,7 +8,7 @@ require 'api_wrapper/cache/cache_policy'
 RSpec.describe ApiWrapper::ApiManager do
   let(:api_configuration_path) { 'spec/fixtures/api_configuration.yml' }
   let(:cache_store) { ApiWrapper::Cache::CacheStore.new }
-  let(:api_manager) { described_class.new(api_configuration_path, cache_store: cache_store) }
+  let(:api_manager) { described_class.new(api_configuration_path, cache_store:) }
 
   describe '#initialize' do
     it 'loads API configuration from file' do

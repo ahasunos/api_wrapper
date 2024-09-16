@@ -72,7 +72,7 @@ module ApiWrapper
 
     # Fetches data from the specified endpoint
     def fetch_data(endpoint_key, force_refresh: false)
-      api_manager.fetch_data(endpoint_key, force_refresh: force_refresh)
+      api_manager.fetch_data(endpoint_key, force_refresh:)
     end
 
     # Resets the ApiManager instance

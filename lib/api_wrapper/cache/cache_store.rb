@@ -77,7 +77,7 @@ module ApiWrapper
       # @param data [Object] The data to cache.
       # @param ttl [Integer] The time-to-live in seconds.
       def store(key, data, ttl)
-        @store[key] = { data: data, timestamp: Time.now, ttl: ttl }
+        @store[key] = { data:, timestamp: Time.now, ttl: }
       end
     end
   end
