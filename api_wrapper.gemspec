@@ -12,9 +12,7 @@ Gem::Specification.new do |spec|
   spec.description = 'ApiWrapper provides an easy-to-use interface for interacting with APIs in a configurable way'
   spec.homepage = 'https://github.com/ahasunos/api_wrapper'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.6.0'
-
-  spec.metadata['allowed_push_host'] = "TODO: Set to your gem server 'https://example.com'"
+  spec.required_ruby_version = '>= 3.1.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/ahasunos/api_wrapper'
