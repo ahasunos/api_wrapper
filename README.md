@@ -1,3 +1,9 @@
+## ApiWrapper
+[![Gem Version](https://badge.fury.io/rb/api_wrapper.svg)](https://badge.fury.io/rb/api_wrapper)
+![Ruby Test Status](https://github.com/ahasunos/api_wrapper/actions/workflows/test.yml/badge.svg)
+![Lint Status](https://github.com/ahasunos/api_wrapper/actions/workflows/lint.yml/badge.svg)
+![Bundler Audit Status](https://github.com/ahasunos/api_wrapper/actions/workflows/bundler_audit.yml/badge.svg)
+
 `ApiWrapper` is a Ruby gem that offers an easy and flexible way to handle API interactions.
 
 ## Table of Contents
