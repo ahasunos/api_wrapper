@@ -53,7 +53,7 @@ module ApiWrapper
       endpoint = @endpoints[endpoint_key]
       raise ArgumentError, "Invalid endpoint key: #{endpoint_key}" unless endpoint
 
-      @cache_policy.fetch(endpoint['path'], force_refresh: force_refresh) do
+      @cache_policy.fetch(endpoint['path'], force_refresh:) do
         @client.get(endpoint['path'])
       end
     end

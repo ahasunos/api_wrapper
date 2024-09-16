@@ -16,7 +16,7 @@ module ApiWrapper
       # @return [Faraday::Response] The response object.
       def get(endpoint, force_refresh: false)
         # Use the cache policy to determine whether to fetch from cache or refresh.
-        @cache_policy.fetch(endpoint, force_refresh: force_refresh) do
+        @cache_policy.fetch(endpoint, force_refresh:) do
           handle_connection(endpoint) do |connection|
             connection.get(endpoint)
           end
