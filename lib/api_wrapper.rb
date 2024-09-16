@@ -7,12 +7,6 @@ require_relative 'api_wrapper/api_manager'
 #
 # It simplifies API management and caching with sensible defaults and customization options.
 #
-# Key Features:
-# - Manages a single instance of ApiManager.
-# - Provides default and customizable configuration paths.
-# - Fetches data from API endpoints with cache support.
-# - Configures globally via a block or directly.
-#
 # Usage:
 #   # Fetch data using default configuration
 #   response = ApiWrapper.fetch_data('endpoint_key')
@@ -47,7 +41,7 @@ module ApiWrapper
       cache_type = ENV['CACHE_STORE_TYPE'] || 'in_memory'
       case cache_type
       when 'redis'
-        ApiWrapper::Cache::RedisCacheStore.new
+        ApiWrapper::Cache::RedisCacheStore.new # TODO: implement RedisCacheStore later
       else
         ApiWrapper::Cache::CacheStore.new
       end
