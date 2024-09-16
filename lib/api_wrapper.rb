@@ -70,7 +70,10 @@ module ApiWrapper
 
     # Returns the singleton ApiManager instance
     def api_manager
-      @api_manager ||= ApiManager.new(configuration.api_configuration_path, cache_store: configuration.cache_store)
+      @api_manager ||= begin
+        config = configuration
+        ApiManager.new(config.api_configuration_path, cache_store: config.cache_store)
+      end
     end
 
     # Fetches data from the specified endpoint
