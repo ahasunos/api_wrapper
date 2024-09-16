@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.37
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<p><code>ApiWrapper</code> is a Ruby gem that offers an easy and flexible way to handle API interactions.</p>
+
+<h2 id="label-Table+of+Contents">Table of Contents</h2>
+<ul><li>
+<p><a href="#installation">Installation</a></p>
+</li><li>
+<p><a href="#usage">Usage</a></p>
+</li><li>
+<p><a href="#basic-usage">Basic Usage</a></p>
+</li><li>
+<p><a href="#custom-configuration">Custom Configuration</a></p>
+</li><li>
+<p><a href="#resetting-the-api-manager">Resetting the API Manager</a></p>
+</li><li>
+<p><a href="#configuration">Configuration</a></p>
+</li><li>
+<p><a href="#api-configuration-file">API Configuration File</a></p>
+</li><li>
+<p><a href="#key-methods">Key Methods</a></p>
+</li><li>
+<p><a href="#development">Development</a></p>
+</li><li>
+<p><a href="#running-tests">Running Tests</a></p>
+</li><li>
+<p><a href="#code-style-and-linting">Code Style and Linting</a></p>
+</li><li>
+<p><a href="#contributing">Contributing</a></p>
+</li><li>
+<p><a href="#license">License</a></p>
+</li><li>
+<p><a href="#code-of-conduct">Code of Conduct</a></p>
+</li></ul>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>Add this to your Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>api_wrapper</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>Then run</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+</code></pre>
+
+<h2 id="label-Usage">Usage</h2>
+
+<h3 id="label-Basic+Usage">Basic Usage</h3>
+
+<p>By default, ApiWrapper looks for an API configuration file at <code>config/api_endpoints.yml</code> (see <a href="#api-configuration-file">API Configuration File</a>) in your root directory of your application and uses in-memory caching. You can fetch data from an API endpoint like this:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>api_wrapper</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='comment'># Fetch data from an API endpoint using the default settings
+</span><span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="ApiWrapper.html" title="ApiWrapper (module)">ApiWrapper</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch_data'><span class='object_link'><a href="ApiWrapper.html#fetch_data-class_method" title="ApiWrapper.fetch_data (method)">fetch_data</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>endpoint_key</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+</code></pre>
+
+<h3 id="label-Custom+Configuration">Custom Configuration</h3>
+
+<p>You can customize the API configuration path and cache store by configuring ApiWrapper:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>api_wrapper</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='comment'># Configure ApiWrapper with custom settings
+</span><span class='const'><span class='object_link'><a href="ApiWrapper.html" title="ApiWrapper (module)">ApiWrapper</a></span></span><span class='period'>.</span><span class='id identifier rubyid_configure'><span class='object_link'><a href="ApiWrapper.html#configure-class_method" title="ApiWrapper.configure (method)">configure</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_api_configuration_path'>api_configuration_path</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>custom/path/to/api_configuration.yml</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_cache_store'>cache_store</span> <span class='op'>=</span> <span class='const'>CustomCacheStore</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='comment'># TODO: Update details on CustomCacheStore later
+</span><span class='kw'>end</span>
+
+<span class='comment'># Fetch data with the custom configuration
+</span><span class='id identifier rubyid_response'>response</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="ApiWrapper.html" title="ApiWrapper (module)">ApiWrapper</a></span></span><span class='period'>.</span><span class='id identifier rubyid_fetch_data'><span class='object_link'><a href="ApiWrapper.html#fetch_data-class_method" title="ApiWrapper.fetch_data (method)">fetch_data</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>endpoint_key</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_response'>response</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span>
+</code></pre>
+
+<h3 id="label-Resetting+the+API+Manager">Resetting the API Manager</h3>
+
+<p>If you change the configuration and want to reset the API manager, call:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="ApiWrapper.html" title="ApiWrapper (module)">ApiWrapper</a></span></span><span class='period'>.</span><span class='id identifier rubyid_reset_api_manager!'><span class='object_link'><a href="ApiWrapper.html#reset_api_manager!-class_method" title="ApiWrapper.reset_api_manager! (method)">reset_api_manager!</a></span></span>
+</code></pre>
+
+<p>This will create a new instance of ApiManager with the updated settings.</p>
+
+<h2 id="label-Configuration">Configuration</h2>
+
+<p>You can adjust two main settings:</p>
+<ol><li>
+<p><strong>API Configuration Path</strong>: This is the path to the YAML file that defines your API endpoints. By default, it’s set to config/api_endpoints.yml. You can also set it through the environment variable <a href="&#39;API_CONFIGURATION_PATH&#39;">ENV</a>.</p>
+</li><li>
+<p><strong>Cache Store</strong>: This is where API responses are stored. By default, ApiWrapper uses an in-memory cache. You can customize this to use a different cache store, such as Redis. You can also set the cache type through <a href="&#39;CACHE_STORE_TYPE&#39;">ENV</a>.</p>
+</li></ol>
+
+<h3 id="label-API+Configuration+File">API Configuration File</h3>
+
+<p>Your configuration file (api_endpoints.yml) defines the base URL for the API and the available endpoints. Here’s an example:</p>
+
+<pre class="code ruby"><code class="ruby">base_url: https://api.example.com/
+apis:
+  endpoint1:
+    path: &#39;path/to/endpoint1&#39;
+    description: &#39;Endpoint 1 description&#39;
+    no_cache: true
+  endpoint2:
+    path: &#39;path/to/endpoint2&#39;
+    description: &#39;Endpoint 2 description&#39;
+    ttl: 600
+</code></pre>
+<ul><li>
+<p>base_url: The base URL for all API requests.</p>
+</li><li>
+<p>apis: A list of API endpoints.</p>
+<ul><li>
+<p>path: The path to the API endpoint.</p>
+</li><li>
+<p>description: (Optional) The description about the endpoint</p>
+</li><li>
+<p>ttl: (Optional) The time (in seconds) that data should be cached.</p>
+</li><li>
+<p>no_cache: (Optional) Whether to bypass caching for this endpoint.</p>
+</li></ul>
+</li></ul>
+
+<h2 id="label-Key+Methods">Key Methods</h2>
+<ul><li>
+<p><code>ApiWrapper.fetch_data(endpoint_key, force_refresh: false)</code>: Fetches data from the specified API endpoint.</p>
+</li><li>
+<p><code>ApiWrapper.configure { |config| ... }</code>: Allows you to configure the gem with custom settings.</p>
+</li><li>
+<p><code>ApiWrapper.reset_api_manager!</code>: Resets the ApiManager instance, which will use any new settings.</p>
+</li></ul>
+
+<h2 id="label-Development">Development</h2>
+
+<p>To get started with contributing to <strong>ApiWrapper</strong>, follow these steps:</p>
+<ol><li>
+<p><strong>Clone the repository</strong>:</p>
+</li></ol>
+
+<p>First, clone the repository to your local machine and navigate to the project directory:</p>
+
+<p>“‘bash  git clone <a href="https://github.com/ahasunos/api_wrapper.git">github.com/ahasunos/api_wrapper.git</a>  cd api_wrapper</p>
+<ol><li>
+<p><strong>Install dependencies</strong>:</p>
+</li></ol>
+
+<p>After navigating to the project directory, install the required gems using Bundler:</p>
+
+<p><code>bash    bundle install </code></p>
+
+<h3 id="label-Running+Tests">Running Tests</h3>
+
+<p>The project uses RSpec for testing. Before submitting any changes, make sure to run the test suite to ensure that everything works as expected:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rspec'>rspec</span>
+</code></pre>
+
+<h3 id="label-Code+Style+and+Linting">Code Style and Linting</h3>
+
+<p>To maintain consistent code quality and style, the project uses RuboCop for linting. Before submitting a pull request, ensure that your code adheres to the project’s style guidelines by running RuboCop:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_exec'>exec</span> <span class='id identifier rubyid_rubocop'>rubocop</span>
+</code></pre>
+
+<p>If RuboCop identifies any issues, it will provide suggestions for how to fix them.</p>
+
+<h2 id="label-Contributing">Contributing</h2>
+
+<p>Bug reports and pull requests are welcome on GitHub at <a href="https://github.com/ahasunos/api_wrapper">github.com/ahasunos/api_wrapper</a>. For major changes, please open an issue first to discuss what you would like to change.</p>
+
+<h2 id="label-License">License</h2>
+
+<p>The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p>
+
+<h2 id="label-Code+of+Conduct">Code of Conduct</h2>
+
+<p>Everyone interacting in the NseData project’s codebases, issue trackers, chat rooms, and mailing lists is expected to follow the <a href="https://github.com/ahasunos/api_wrapper/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Mon Sep 16 23:22:30 2024 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.37 (ruby-3.2.2).
+</div>
+
+    </div>
+  </body>
+</html>
