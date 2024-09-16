@@ -1,34 +1,148 @@
-# ApiWrapper
+`ApiWrapper` is a Ruby gem that offers an easy and flexible way to handle API interactions.
 
-TODO: Delete this and the text below, and describe your gem
+## Table of Contents
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/api_wrapper`. To experiment with that code, run `bin/console` for an interactive prompt.
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Basic Usage](#basic-usage)
+  - [Custom Configuration](#custom-configuration)
+  - [Resetting the API Manager](#resetting-the-api-manager)
+- [Configuration](#configuration)
+  - [API Configuration File](#api-configuration-file)
+- [Key Methods](#key-methods)
+- [Development](#development)
+  - [Running Tests](#running-tests)
+  - [Code Style and Linting](#code-style-and-linting)
+- [Contributing](#contributing)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this to your Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'api_wrapper'
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Then run
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+bundle install
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Basic Usage
+By default, ApiWrapper looks for an API configuration file at `config/api_endpoints.yml` (see [API Configuration File](#api-configuration-file)) in your root directory of your application and uses in-memory caching. You can fetch data from an API endpoint like this:
+
+```ruby
+require 'api_wrapper'
+
+# Fetch data from an API endpoint using the default settings
+response = ApiWrapper.fetch_data('endpoint_key')
+puts response.body
+```
+
+### Custom Configuration
+You can customize the API configuration path and cache store by configuring ApiWrapper:
+
+```ruby
+require 'api_wrapper'
+
+# Configure ApiWrapper with custom settings
+ApiWrapper.configure do |config|
+  config.api_configuration_path = 'custom/path/to/api_configuration.yml'
+  config.cache_store = CustomCacheStore.new # TODO: Update details on CustomCacheStore later
+end
+
+# Fetch data with the custom configuration
+response = ApiWrapper.fetch_data('endpoint_key')
+puts response.body
+```
+
+### Resetting the API Manager
+If you change the configuration and want to reset the API manager, call:
+```ruby
+ApiWrapper.reset_api_manager!
+```
+This will create a new instance of ApiManager with the updated settings.
+
+## Configuration
+You can adjust two main settings:
+
+1. **API Configuration Path**: This is the path to the YAML file that defines your API endpoints. By default, it’s set to config/api_endpoints.yml. You can also set it through the environment variable ENV['API_CONFIGURATION_PATH'].
+
+2. **Cache Store**: This is where API responses are stored. By default, ApiWrapper uses an in-memory cache. You can customize this to use a different cache store, such as Redis. You can also set the cache type through ENV['CACHE_STORE_TYPE'].
+
+### API Configuration File
+Your configuration file (api_endpoints.yml) defines the base URL for the API and the available endpoints. Here’s an example:
+
+```yaml
+base_url: https://api.example.com/
+apis:
+  endpoint1:
+    path: 'path/to/endpoint1'
+    description: 'Endpoint 1 description'
+    no_cache: true
+  endpoint2:
+    path: 'path/to/endpoint2'
+    description: 'Endpoint 2 description'
+    ttl: 600
+```
+
+- base_url: The base URL for all API requests.
+- apis: A list of API endpoints.
+    - path: The path to the API endpoint.
+    - description: (Optional) The description about the endpoint
+    - ttl: (Optional) The time (in seconds) that data should be cached.
+    - no_cache: (Optional) Whether to bypass caching for this endpoint.
+
+## Key Methods
+- `ApiWrapper.fetch_data(endpoint_key, force_refresh: false)`: Fetches data from the specified API endpoint.
+- `ApiWrapper.configure { |config| ... }`: Allows you to configure the gem with custom settings.
+- `ApiWrapper.reset_api_manager!`: Resets the ApiManager instance, which will use any new settings.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+To get started with contributing to **ApiWrapper**, follow these steps:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+1. **Clone the repository**:
+
+   First, clone the repository to your local machine and navigate to the project directory:
+
+   ```bash
+   git clone https://github.com/ahasunos/api_wrapper.git
+   cd api_wrapper
+
+2. **Install dependencies**:
+
+   After navigating to the project directory, install the required gems using Bundler:
+
+   ```bash
+   bundle install
+   ```
+
+### Running Tests
+The project uses RSpec for testing. Before submitting any changes, make sure to run the test suite to ensure that everything works as expected:
+
+```bash
+bundle exec rspec
+```
+
+### Code Style and Linting
+To maintain consistent code quality and style, the project uses RuboCop for linting. Before submitting a pull request, ensure that your code adheres to the project's style guidelines by running RuboCop:
+
+```bash
+bundle exec rubocop
+```
+
+If RuboCop identifies any issues, it will provide suggestions for how to fix them.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/api_wrapper. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/api_wrapper/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/ahasunos/api_wrapper. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
@@ -36,4 +150,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the ApiWrapper project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/api_wrapper/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the NseData project's codebases, issue trackers, chat rooms, and mailing lists is expected to follow the [code of conduct](https://github.com/ahasunos/api_wrapper/blob/master/CODE_OF_CONDUCT.md).
