@@ -60,6 +60,7 @@ jobs:
           # Debug each row
           echo "Processing: $name, $SPDXID, $versionInfo, $downloadLocation, $externalRefs, $license, $source_code_url, $vendor"
           if [[ "$externalRefs" == *"pkg:gem"* ]]; then
+            echo "Processing RubyGem: $name"
             gem_name=$(echo "$name" | tr -d '"')
             version=$(echo "$versionInfo" | tr -d '"')
             api_url="https://rubygems.org/api/v2/rubygems/${gem_name}/versions/${version}.json"
