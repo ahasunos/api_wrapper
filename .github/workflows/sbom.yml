@@ -63,6 +63,15 @@ jobs:
             echo "Processing RubyGem: $name"
             gem_name=$(echo "$name" | tr -d '"')
             version=$(echo "$versionInfo" | tr -d '"')
+            # Check if the version contains a version constraint (e.g., ~>, >=, <=)
+            if [[ "$gem_version" =~ [\~\>\<\=\ ] ]]; then
+              echo "Skipping call to rubygems.org for version constraint: $gem_version"
+              continue  # Skip processing for this gem version
+            else
+              # Proceed with making the call to rubygems.org
+              echo "Making call to rubygems.org for fixed version: $gem_version"
+              # Your logic to call rubygems.org
+            fi
             api_url="https://rubygems.org/api/v2/rubygems/${gem_name}/versions/${version}.json"
             response=$(curl -s "$api_url")
             echo "Response: $response"
