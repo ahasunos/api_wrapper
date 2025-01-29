@@ -1,11 +1,5 @@
 name: Download SBOM from Insights and Convert to CSV
 
-# # NOTE: We would probably want to run this workflow on every push to main and not on pull requests
-# on:
-#   push:
-#     branches:
-#       - main
-
 on:
   pull_request:
     branches:
@@ -54,11 +48,17 @@ jobs:
             "None", "None", "None"
           ] | @csv' "${FILE_PREFIX}-sbom.json" >> "${FILE_PREFIX}-sbom.csv"
 
+    - name: Preview SBOM CSV Content
+      run: |
+        head -n 20 "${FILE_PREFIX}-sbom.csv"
+
     - name: Enrich SBOM CSV with RubyGems Data
       run: |
         TEMP_CSV="${FILE_PREFIX}-sbom-temp.csv"
         echo "name,SPDXID,versionInfo,downloadLocation,externalRefs,license,source_code_url,vendor" > "$TEMP_CSV"
         tail -n +2 "${FILE_PREFIX}-sbom.csv" | while IFS=, read -r name SPDXID versionInfo downloadLocation externalRefs license source_code_url vendor; do
+          # Debug each row
+          echo "Processing: $name, $SPDXID, $versionInfo, $downloadLocation, $externalRefs, $license, $source_code_url, $vendor"
           if [[ "$externalRefs" == *"pkg:gem"* ]]; then
             gem_name=$(echo "$name" | tr -d '"')
             version=$(echo "$versionInfo" | tr -d '"')
