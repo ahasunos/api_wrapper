@@ -65,7 +65,9 @@ jobs:
             version=$(echo "$versionInfo" | tr -d '"')
             api_url="https://rubygems.org/api/v2/rubygems/${gem_name}/versions/${version}.json"
             response=$(curl -s "$api_url")
+            echo "Response: $response"
             new_license=$(echo "$response" | jq -r '.licenses[0] // "None"')
+            echo "License: $new_license"
             new_source_code_url=$(echo "$response" | jq -r '.source_code_uri // "None"')
             new_vendor=$(echo "$response" | jq -r '.authors // "None"')
           else
