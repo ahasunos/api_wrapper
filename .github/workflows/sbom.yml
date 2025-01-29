@@ -1,5 +1,15 @@
 name: Download SBOM from Insights and Convert to CSV
 
+# on:
+#   workflow_dispatch:
+
+
+# # NOTE: We would probably want to run this workflow on every push to main and not on pull requests
+# # on:
+# #   push:
+# #     branches:
+# #       - main
+
 on:
   pull_request:
     branches:
@@ -66,19 +76,18 @@ jobs:
             # Check if the version contains a version constraint (e.g., ~>, >=, <=)
             if [[ "$versionInfo" =~ [\~\>\<\=\ ] ]]; then
               echo "Skipping call to rubygems.org for version constraint: $versionInfo"
-              continue  # Skip processing for this gem versionInfo
             else
               # Proceed with making the call to rubygems.org
               echo "Making call to rubygems.org for fixed version: $versionInfo"
               # Your logic to call rubygems.org
+              api_url="https://rubygems.org/api/v2/rubygems/${gem_name}/versions/${version}.json"
+              response=$(curl -s "$api_url")
+              echo "Response: $response"
+              new_license=$(echo "$response" | jq -r '.licenses[0] // "None"')
+              echo "License: $new_license"
+              new_source_code_url=$(echo "$response" | jq -r '.source_code_uri // "None"')
+              new_vendor=$(echo "$response" | jq -r '.authors // "None"')
             fi
-            api_url="https://rubygems.org/api/v2/rubygems/${gem_name}/versions/${version}.json"
-            response=$(curl -s "$api_url")
-            echo "Response: $response"
-            new_license=$(echo "$response" | jq -r '.licenses[0] // "None"')
-            echo "License: $new_license"
-            new_source_code_url=$(echo "$response" | jq -r '.source_code_uri // "None"')
-            new_vendor=$(echo "$response" | jq -r '.authors // "None"')
           else
             new_license="None"
             new_source_code_url="None"
